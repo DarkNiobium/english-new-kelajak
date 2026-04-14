@@ -2,26 +2,26 @@ import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
-import { motion, HTMLMotionProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 active:scale-95 transition-all duration-200',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 active:scale-95 duration-200',
   {
     variants: {
       variant: {
-        default: 'bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--primary)]/90 shadow-md hover:shadow-lg',
-        destructive: 'bg-red-500 text-white hover:bg-red-600 shadow-sm',
-        outline: 'border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)]/10',
-        secondary: 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700',
-        ghost: 'hover:bg-[var(--surface-hover)] text-gray-700 dark:text-gray-300',
+        default: 'bg-[var(--primary)] text-white hover:opacity-90 shadow-[0_0_20px_rgba(99,102,241,0.3)]',
+        accent: 'bg-[var(--accent)] text-white hover:opacity-90 shadow-[0_0_20px_rgba(168,85,247,0.3)]',
+        outline: 'border-2 border-[var(--border)] bg-transparent hover:bg-white/5 text-[var(--foreground)]',
+        secondary: 'bg-[var(--surface-hover)] text-[var(--foreground)] border border-[var(--border)]',
+        ghost: 'hover:bg-white/5 text-[var(--foreground)]',
+        glass: 'glass text-[var(--foreground)] hover:bg-white/10 border-[var(--border)]',
         link: 'text-[var(--primary)] underline-offset-4 hover:underline',
-        glass: 'glass text-gray-900 dark:text-white hover:bg-white/20 dark:hover:bg-white/10'
       },
       size: {
-        default: 'h-11 px-6 py-2',
-        sm: 'h-9 rounded-lg px-3 text-xs',
-        lg: 'h-14 rounded-2xl px-10 text-base',
-        icon: 'h-11 w-11',
+        default: 'h-12 px-8 py-2',
+        sm: 'h-10 rounded-xl px-4 text-xs',
+        lg: 'h-16 rounded-[2rem] px-12 text-base tracking-tight',
+        icon: 'h-12 w-12',
       },
     },
     defaultVariants: {
@@ -39,24 +39,22 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    // If asChild is false, we use a motion component for micro-interactions
-    if (!asChild) {
+    if (asChild) {
       return (
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+        <Slot
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
-          {...(props as any)}
+          {...props}
         />
       );
     }
-    const Comp = Slot;
     return (
-      <Comp
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        {...props}
+        {...(props as any)}
       />
     );
   }

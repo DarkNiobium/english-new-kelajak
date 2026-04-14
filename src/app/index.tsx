@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from '@/pages/Home';
 import { DashboardLayout } from '@/app/layouts/DashboardLayout';
@@ -9,8 +9,19 @@ import { RegisterPage } from '@/pages/Auth/Register';
 import { AITutorPage } from '@/pages/AITutor';
 import { CoursesPage } from '@/pages/Courses';
 import { LeaderboardPage } from '@/pages/Leaderboard';
+import { useUiStore } from '@/shared/store/ui';
 
 export const App = () => {
+  const isDarkMode = useUiStore((state) => state.isDarkMode);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   return (
     <BrowserRouter>
       <Suspense fallback={

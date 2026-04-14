@@ -2,75 +2,68 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-
-  --color-bg-light: #f8fafc;
-  --color-bg-dark: #0f172a;
-  --color-surface-light: #ffffff;
-  --color-surface-dark: #1e293b;
+  --color-primary: #4338ca;
+  --color-accent: #7c3aed;
+  --color-accent-glow: rgba(124, 58, 237, 0.2);
+  
+  --color-bg-light: #ffffff;
+  --color-bg-dark: #000000;
+  
+  --color-surface-light: #f8fafc;
+  --color-surface-dark: #0a0a0a;
+  
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #1e1e1e;
 }
 
 @layer base {
   :root {
-    --background: var(--color-bg-light);
+    --background: #ffffff;
     --foreground: #0f172a;
-    --surface: var(--color-surface-light);
+    --surface: #f8fafc;
     --surface-hover: #f1f5f9;
     --border: #e2e8f0;
-    --primary: var(--color-primary-600);
-    --primary-foreground: #ffffff;
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --accent: #7c3aed;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: var(--color-bg-dark);
+    --background: #0f172a;
     --foreground: #f8fafc;
-    --surface: var(--color-surface-dark);
+    --surface: #1e293b;
     --surface-hover: #334155;
-    --border: #334155;
-    --primary: var(--color-primary-500);
-    --primary-foreground: #ffffff;
+    --border: #1e293b;
+    --primary: #6366f1;
+    --accent: #a78bfa;
   }
 
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.5);
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(107, 114, 128, 0.8);
+  h1, h2, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
 }
 
 @layer utilities {
   .glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-slate-800;
   }
 
-  .dark .glass {
-    background: rgba(30, 41, 59, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+  .card-premium {
+    @apply bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600;
   }
 }

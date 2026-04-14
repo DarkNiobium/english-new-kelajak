@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/ui/Card';
-import { Mail, Lock, User, Loader2 } from 'lucide-react';
+import { Card, CardContent } from '@/shared/ui/Card';
+import { Mail, Lock, User, Loader2, ArrowRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useUserStore } from '@/entities/user/store';
+import { motion } from 'framer-motion';
 
 const GoogleIcon = () => (
   <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24">
@@ -32,7 +33,6 @@ export const RegisterPage = () => {
     onSuccess: async (tokenResponse) => {
       setIsGoogleLoading(true);
       try {
-        // Fetch user data from Google
         const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         }).then(res => res.json());
@@ -47,87 +47,88 @@ export const RegisterPage = () => {
         });
         navigate('/dashboard');
       } catch (err) {
-        console.error("Failed to fetch google user info", err);
+        console.error("Auth Exception", err);
       } finally {
         setIsGoogleLoading(false);
       }
-    },
-    onError: () => {
-      console.error('Signup Failed');
     }
   });
 
   return (
-    <Card className="border-[var(--border)] shadow-xl relative overflow-hidden backdrop-blur-xl bg-[var(--surface)]/80">
-      <CardHeader className="space-y-1 pb-4 text-center">
-        <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-        <CardDescription>
-          Sign up to start learning today
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full max-w-[440px] px-6"
+    >
+      <div className="text-center mb-12 space-y-4">
+         <div className="h-14 w-14 rounded-2xl bg-indigo-600 mx-auto flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-indigo-100">ENK</div>
+         <h1 className="text-4xl font-black tracking-tighter text-slate-900 leading-none">Create Account</h1>
+         <p className="text-slate-500 font-medium text-lg leading-tight">Start your journey to English fluency today.</p>
+      </div>
+
+      <Card className="border border-slate-100 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.08)] rounded-[3rem] overflow-hidden p-2 bg-white">
+        <CardContent className="p-10 space-y-8">
           <Button
             type="button"
+            variant="outline"
             onClick={() => onGoogleSignup()}
             disabled={isGoogleLoading}
-            className="w-full h-12 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 shadow-sm transition-colors text-[15px] font-medium"
+            className="w-full h-14 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 shadow-sm transition-all font-bold text-sm text-slate-600 group"
           >
-            {isGoogleLoading ? <Loader2 className="h-5 w-5 mr-3 animate-spin"/> : <GoogleIcon />}
-            {isGoogleLoading ? 'Connecting...' : 'Continue with Google'}
+            {isGoogleLoading ? <Loader2 className="h-5 w-5 animate-spin"/> : <GoogleIcon />}
+            {isGoogleLoading ? 'Joining...' : 'Join with Google'}
           </Button>
           
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-200 dark:border-gray-700" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-[var(--surface)] px-2 text-gray-500 font-medium">Or continue with</span>
+          <div className="relative">
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t border-slate-100" />
+            <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
+              <span className="bg-white px-4 text-slate-300">or sign up with email</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Input 
-                icon={<User className="h-4 w-4" />} 
-                placeholder="Full Name" 
-                {...register('name')}
-              />
-            </div>
-            <div className="space-y-2">
-              <Input 
-                icon={<Mail className="h-4 w-4" />} 
-                placeholder="name@example.com" 
-                type="email"
-                {...register('email')}
-              />
-            </div>
-            <div className="space-y-2">
-              <Input 
-                icon={<Lock className="h-4 w-4" />} 
-                placeholder="Create a password" 
-                type="password"
-                {...register('password')}
-              />
-            </div>
+            <Input 
+              icon={<User className="h-4 w-4 text-slate-300" />} 
+              placeholder="Full Name" 
+              {...register('name')}
+              className="bg-slate-50 border-none h-14 rounded-2xl text-slate-900 placeholder:text-slate-300 font-medium"
+            />
+            <Input 
+              icon={<Mail className="h-4 w-4 text-slate-300" />} 
+              placeholder="Email Address" 
+              type="email"
+              {...register('email')}
+              className="bg-slate-50 border-none h-14 rounded-2xl text-slate-900 placeholder:text-slate-300 font-medium"
+            />
+            <Input 
+              icon={<Lock className="h-4 w-4 text-slate-300" />} 
+              placeholder="Create Password" 
+              type="password"
+              {...register('password')}
+              className="bg-slate-50 border-none h-14 rounded-2xl text-slate-900 placeholder:text-slate-300 font-medium"
+            />
+            
             <Button 
-              className="w-full mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md transition-all h-12 text-base" 
+              className="w-full h-16 rounded-[2rem] text-lg font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl shadow-indigo-100 mt-6 group" 
               type="submit" 
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Creating account...' : 'Sign Up'}
+              {isSubmitting ? 'Creating account...' : (
+                <span className="flex items-center gap-2">
+                  Create Account <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              )}
             </Button>
           </form>
-        </div>
-      </CardContent>
-      <CardFooter className="flex flex-col space-y-4">
-        <div className="text-sm text-center text-gray-500">
-          Already have an account?{' '}
-          <Link to="/login" className="text-[var(--primary)] hover:underline font-medium">
-            Sign in
-          </Link>
-        </div>
-      </CardFooter>
-    </Card>
+        </CardContent>
+      </Card>
+      
+      <div className="mt-10 text-center text-sm font-medium text-slate-500">
+         Already have an account?{' '}
+         <Link to="/login" className="text-indigo-600 font-bold hover:text-indigo-700 transition-colors">
+            Sign In
+         </Link>
+      </div>
+    </motion.div>
   );
 };

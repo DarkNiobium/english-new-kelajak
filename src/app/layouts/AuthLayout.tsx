@@ -1,27 +1,31 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 export const AuthLayout = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--background)] p-4">
-      <div className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom">
-        <div className="absolute inset-0 bg-[var(--background)] [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
+    <div className="min-h-screen flex items-center justify-center bg-white p-4 overflow-hidden relative">
+      {/* Cinematic Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-50/50 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-slate-50/50 blur-[120px] rounded-full" />
       </div>
+
+      {/* Structural Mesh Overlay */}
+      <div className="absolute inset-0 bg-grid-slate-50 [mask-image:linear-gradient(to_bottom,white,transparent,transparent,white)] opacity-20 pointer-events-none" />
       
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md z-10"
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-lg z-10 flex flex-col items-center"
       >
-        <div className="mb-8 flex justify-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold text-2xl shadow-lg">
-            K
-          </div>
-        </div>
         <Outlet />
       </motion.div>
+
+      {/* Footer Branding */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-[0.3em] text-slate-300">
+        English new kelajak (ENK) // Learning Platform
+      </div>
     </div>
   );
 };

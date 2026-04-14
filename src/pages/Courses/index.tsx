@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Trophy, Star, ArrowRight, PlayCircle, Zap, Shield, Crown } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
@@ -92,113 +92,107 @@ const curriculum = [
 ];
 
 export const CoursesPage = () => {
-  const [activeLevel, setActiveLevel] = useState<string | null>('A1');
+  const [activeLevel, setActiveLevel] = useState<string | null>('B1'); 
   const navigate = useNavigate();
 
   const handleStartLesson = (level: string, topic: string) => {
-    // Navigate to AI Tutor and pass state so it can automatically generate
-    // But since passing state requires modifying AI Tutor slightly, we will at least route there
-    // For now we just route to AI tutor. A real app might pass query params.
     navigate(`/ai-tutor?level=${level}&topic=${encodeURIComponent(topic)}`);
   };
 
   return (
-    <div className="p-8 max-w-6xl mx-auto min-h-[calc(100vh-2rem)]">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-4">
-          Kelajak Curriculum
+    <div className="p-4 md:p-10 max-w-7xl mx-auto min-h-screen space-y-12">
+      <div className="text-center space-y-4">
+        <h1 className="text-6xl font-black tracking-tight text-slate-900 leading-none">
+          Your <span className="text-indigo-600">Courses</span>
         </h1>
-        <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-          A properly structured, step-by-step roadmap to master the English language.
-          Select any core topic to dynamically generate a lesson via Kelajak AI.
+        <p className="text-xl text-slate-500 font-medium max-w-2xl mx-auto">
+          Choose a level and start your journey to English fluency today. 
+          Select a topic to begin a personalized lesson.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
         {/* Levels Sidebar */}
-        <div className="lg:col-span-4 space-y-3">
+        <div className="lg:col-span-4 space-y-4">
           {curriculum.map((item) => (
             <div
               key={item.level}
               onClick={() => setActiveLevel(item.level)}
               className={cn(
-                "p-4 rounded-2xl cursor-pointer transition-all duration-300 border-2 flex items-center gap-4",
+                "p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border flex items-center gap-6",
                 activeLevel === item.level
-                  ? "border-transparent bg-white shadow-xl scale-[1.02]"
-                  : "border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-200"
+                  ? "bg-white border-indigo-200 shadow-xl shadow-indigo-100/50"
+                  : "bg-white border-slate-100 hover:border-slate-300"
               )}
             >
               <div className={cn(
-                "flex-shrink-0 h-14 w-14 rounded-2xl flex items-center justify-center text-white bg-gradient-to-br shadow-md transition-all",
-                item.color,
-                activeLevel !== item.level && "opacity-70 grayscale-[30%]"
+                "flex-shrink-0 h-14 w-14 rounded-2xl flex items-center justify-center transition-all",
+                activeLevel === item.level ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "bg-slate-50 text-slate-300"
               )}>
                 <item.icon className="h-6 w-6" />
               </div>
-              <div>
-                <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                  {item.level} <span className="text-sm font-medium text-slate-400">({item.name})</span>
+              <div className="flex-1">
+                <h3 className={cn(
+                  "text-xl font-black tracking-tight flex items-center gap-2",
+                  activeLevel === item.level ? "text-indigo-600" : "text-slate-900"
+                )}>
+                  {item.level} <span className={cn("text-[10px] font-bold uppercase tracking-widest", activeLevel === item.level ? "text-indigo-400" : "text-slate-400")}>{item.name}</span>
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">{item.description}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Level Details & Topics */}
+        {/* Content Area */}
         <div className="lg:col-span-8">
           <AnimatePresence mode="wait">
             {curriculum.map((item) => item.level === activeLevel && (
               <motion.div
                 key={item.level}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.2 }}
-                className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 h-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-sm h-full space-y-12"
               >
-                <div className="flex items-start gap-6 mb-8 pb-8 border-b border-slate-100">
-                  <div className={cn("h-20 w-20 rounded-3xl flex items-center justify-center text-white shadow-xl bg-gradient-to-br", item.color)}>
-                    <span className="text-3xl font-black">{item.level}</span>
+                <div className="flex flex-col md:flex-row items-center gap-8 border-b border-slate-50 pb-12">
+                  <div className="h-24 w-24 rounded-[2rem] flex items-center justify-center text-white bg-indigo-600 shadow-xl shadow-indigo-100">
+                    <span className="text-4xl font-black">{item.level}</span>
                   </div>
-                  <div className="flex-1 mt-2">
-                    <h2 className="text-3xl font-bold text-slate-900">{item.name}</h2>
-                    <p className="text-slate-500 mt-2 text-lg leading-relaxed">{item.description}</p>
+                  <div className="flex-1 space-y-2 text-center md:text-left">
+                    <h2 className="text-4xl font-black text-slate-900 tracking-tight">{item.name} Level</h2>
+                    <p className="text-slate-500 text-xl font-medium leading-tight max-w-xl">{item.description}</p>
                   </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                  <BookOpen className="h-6 w-6 text-slate-400" />
-                  Core Lessons ({item.level})
-                </h3>
+                <div className="space-y-6">
+                   <div className="flex items-center justify-between">
+                     <h3 className="text-[10px] font-bold text-slate-300 uppercase tracking-widest flex items-center gap-3">
+                        <BookOpen className="h-4 w-4" /> Available Lessons
+                     </h3>
+                     <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">{item.topics.length} Lessons</span>
+                   </div>
 
-                <div className="space-y-4">
-                  {item.topics.map((topic, index) => (
-                    <div
-                      key={index}
-                      className="group flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors shadow-sm"
-                    >
-                      <div className="flex items-center gap-4 mb-4 sm:mb-0">
-                        <div className="h-10 w-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-400 font-bold text-sm border border-slate-200">
-                          {index + 1}
-                        </div>
-                        <span className="font-semibold text-slate-700 text-lg">{topic}</span>
-                      </div>
-
-                      <button
+                  <div className="grid grid-cols-1 gap-4">
+                    {item.topics.map((topic, index) => (
+                      <div
+                        key={index}
                         onClick={() => handleStartLesson(item.level, topic)}
-                        className={cn(
-                          "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5",
-                          "bg-gradient-to-r", item.color
-                        )}
+                        className="group flex items-center justify-between p-6 rounded-3xl bg-slate-50 border border-transparent hover:border-indigo-100 hover:bg-white transition-all cursor-pointer"
                       >
-                        <PlayCircle className="h-4 w-4" />
-                        Learn with AI
-                        <ArrowRight className="h-4 w-4 ml-1 opacity-70 group-hover:opacity-100 transition-opacity" />
-                      </button>
-                    </div>
-                  ))}
+                        <div className="flex items-center gap-6">
+                           <div className="h-10 w-10 rounded-full bg-white border border-slate-100 flex items-center justify-center text-[10px] font-black text-slate-400">
+                             {(index + 1).toString().padStart(2, '0')}
+                           </div>
+                           <span className="font-bold text-xl text-slate-800 tracking-tight">{topic}</span>
+                        </div>
+
+                        <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all shadow-xl shadow-indigo-100">
+                          <ArrowRight className="h-5 w-5" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             ))}
