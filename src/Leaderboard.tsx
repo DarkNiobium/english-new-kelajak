@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Flame, TrendingUp, Search, Crown } from 'lucide-react';
-import { cn } from '@/shared/lib/utils';
-import { Card } from '@/shared/ui/Card';
-import { useUserStore } from '@/entities/user/store';
+import { cn } from '@/utils';
+import { Card } from '@/Card';
+import { useUserStore } from '@/userStore';
 
 // Mock data for the leaderboard to make it look active
+// Mock data for the leaderboard to make it look active
 const mockData = [
-  { id: 2, name: 'Eleanor Pena', points: 3210, streak: 12, level: 'B2', avatar: 'E' },
-  { id: 3, name: 'Guy Hawkins', points: 2950, streak: 28, level: 'B2', avatar: 'G' },
-  { id: 4, name: 'Jacob Jones', points: 2800, streak: 5, level: 'B1', avatar: 'J' },
-  { id: 5, name: 'Dianne Russell', points: 2640, streak: 14, level: 'A2', avatar: 'D' },
-  { id: 6, name: 'Courtney Henry', points: 2430, streak: 3, level: 'B1', avatar: 'C' },
-  { id: 7, name: 'Kathryn Murphy', points: 2100, streak: 8, level: 'A2', avatar: 'K' },
-  { id: 8, name: 'Arlene McCoy', points: 1950, streak: 2, level: 'A1', avatar: 'A' },
-  { id: 9, name: 'Bessie Cooper', points: 1840, streak: 1, level: 'A1', avatar: 'B' },
-  { id: 10, name: 'Cody Fisher', points: 1520, streak: 0, level: 'A1', avatar: 'C' },
+  { id: 2, name: 'Sardorbek Rahmonov', points: 4820, streak: 45, level: 'C1', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sardor' },
+  { id: 3, name: 'Elena Petrova', points: 4150, streak: 32, level: 'B2', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Elena' },
+  { id: 4, name: 'Jasur Ismoilov', points: 3900, streak: 12, level: 'B2', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jasur' },
+  { id: 5, name: 'Malika Karimova', points: 3640, streak: 21, level: 'B1', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Malika' },
+  { id: 6, name: 'Dmitry Volkov', points: 3430, streak: 8, level: 'B1', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry' },
+  { id: 7, name: 'Nigora Alimova', points: 3100, streak: 15, level: 'A2', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Nigora' },
+  { id: 8, name: 'Artur Kim', points: 2950, streak: 4, level: 'A2', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Artur' },
+  { id: 9, name: 'Zahro Tuychieva', points: 2840, streak: 2, level: 'A1', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Zahro' },
+  { id: 10, name: 'Anvar Sobirov', points: 2520, streak: 0, level: 'A1', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anvar' },
 ];
 
 export const LeaderboardPage = () => {
@@ -32,7 +33,7 @@ export const LeaderboardPage = () => {
       points: currentUser.xp || 0,
       streak: currentUser.streak || 0,
       level: currentUser.level || 'B1',
-      avatar: (currentUser.name || 'Y').charAt(0).toUpperCase(),
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentUser.name || 'You'}`,
       isCurrentUser: true
     }] : [])
   ].sort((a, b) => b.points - a.points)
@@ -48,24 +49,24 @@ export const LeaderboardPage = () => {
       {/* Header Section */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[10px] font-bold uppercase tracking-widest text-indigo-600">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-600">
             <Trophy className="h-3 w-3" />
             Top Learners
           </div>
-          <h1 className="text-6xl font-black tracking-tight text-slate-900 leading-none">
+          <h1 className="text-4xl font-bold text-slate-900 leading-none">
             ENK <span className="text-indigo-600">Leaderboard</span>
           </h1>
-          <p className="text-xl text-slate-500 font-medium max-w-2xl leading-tight">
+          <p className="text-lg text-slate-600 font-medium max-w-2xl leading-tight">
             Celebrate your progress and see how you rank against other learners in the ENK community.
           </p>
         </div>
 
         {/* Timeframe Toggle */}
-        <div className="bg-slate-50 p-1.5 rounded-2xl flex items-center border border-slate-100 self-start">
+        <div className="bg-slate-50 p-1.5 rounded-lg flex items-center border border-slate-100 self-start">
           <button 
             onClick={() => setTimeframe('weekly')}
             className={cn(
-              "px-6 py-3 rounded-xl text-xs font-bold transition-all uppercase tracking-widest",
+              "px-6 py-3 rounded-xl text-xs font-bold transition-all font-semibold",
               timeframe === 'weekly' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
             )}
           >
@@ -74,7 +75,7 @@ export const LeaderboardPage = () => {
           <button 
             onClick={() => setTimeframe('all-time')}
             className={cn(
-              "px-6 py-3 rounded-xl text-xs font-bold transition-all uppercase tracking-widest",
+              "px-6 py-3 rounded-xl text-xs font-bold transition-all font-semibold",
               timeframe === 'all-time' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
             )}
           >
@@ -92,10 +93,8 @@ export const LeaderboardPage = () => {
             className="flex flex-col items-center group"
           >
              <div className="relative mb-6">
-                <div className="h-24 w-24 rounded-3xl bg-slate-50 p-1 shadow-sm group-hover:-translate-y-2 transition-transform duration-500">
-                  <div className="h-full w-full rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-2xl font-black text-slate-300">
-                    {combinedData[1].avatar}
-                  </div>
+                <div className="h-24 w-24 rounded-lg bg-slate-50 p-1 shadow-sm group-hover:-translate-y-2 transition-transform duration-500 overflow-hidden">
+                  <img src={combinedData[1].avatar} alt={combinedData[1].name} className="h-full w-full object-cover rounded-lg" />
                 </div>
                 <div className="absolute -bottom-3 -right-2 h-8 w-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-600">
                   02
@@ -117,16 +116,14 @@ export const LeaderboardPage = () => {
                 <Crown className="h-10 w-10 fill-indigo-600" />
              </div>
              <div className="relative mb-6">
-                <div className="h-32 w-32 rounded-[2.5rem] bg-indigo-600 p-1.5 shadow-2xl shadow-indigo-100 group-hover:-translate-y-4 transition-transform duration-700">
-                  <div className="h-full w-full rounded-[2.3rem] bg-indigo-500 border border-indigo-400/30 flex items-center justify-center text-4xl font-black text-white">
-                    {combinedData[0].avatar}
-                  </div>
+                <div className="h-32 w-32 rounded-xl bg-indigo-600 p-1.5 shadow-lg group-hover:-translate-y-4 transition-transform duration-700 overflow-hidden">
+                  <img src={combinedData[0].avatar} alt={combinedData[0].name} className="h-full w-full object-cover rounded-[2.3rem]" />
                 </div>
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 h-10 w-10 rounded-full bg-slate-900 border-[3px] border-white flex items-center justify-center text-xs font-bold text-white shadow-xl">
                   01
                 </div>
              </div>
-             <h3 className="font-black text-slate-900 text-2xl tracking-tight mt-4 flex items-center gap-2">
+             <h3 className="font-bold text-slate-900 text-xl mt-4 flex items-center gap-2">
                 {combinedData[0].name}
                 <span className="h-2 w-2 rounded-full bg-indigo-600" />
              </h3>
@@ -142,10 +139,8 @@ export const LeaderboardPage = () => {
             className="flex flex-col items-center group"
           >
              <div className="relative mb-6">
-                <div className="h-24 w-24 rounded-3xl bg-slate-50 p-1 shadow-sm group-hover:-translate-y-2 transition-transform duration-500">
-                  <div className="h-full w-full rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-2xl font-black text-slate-300">
-                    {combinedData[2].avatar}
-                  </div>
+                <div className="h-24 w-24 rounded-lg bg-slate-50 p-1 shadow-sm group-hover:-translate-y-2 transition-transform duration-500 overflow-hidden">
+                  <img src={combinedData[2].avatar} alt={combinedData[2].name} className="h-full w-full object-cover rounded-lg" />
                 </div>
                 <div className="absolute -bottom-3 -left-2 h-8 w-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-600">
                   03
@@ -161,7 +156,7 @@ export const LeaderboardPage = () => {
       )}
 
       {/* Main List Section */}
-      <Card className="rounded-[3rem] overflow-hidden bg-white border border-slate-100 shadow-sm relative z-20">
+      <Card className="rounded-lg overflow-hidden bg-white border border-slate-100 shadow-sm relative z-20">
         
         {/* Search & Status Bar */}
         <div className="p-8 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -172,10 +167,10 @@ export const LeaderboardPage = () => {
               placeholder="Search for a learner..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-14 pr-6 h-14 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-indigo-600/10 font-bold text-sm text-slate-900 placeholder:text-slate-300"
+              className="w-full pl-14 pr-6 h-14 bg-slate-50 border-none rounded-lg focus:ring-2 focus:ring-indigo-600/10 font-bold text-sm text-slate-900 placeholder:text-slate-300"
             />
           </div>
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-4">
+          <div className="text-[10px] font-bold text-slate-400 font-semibold flex items-center gap-4">
              <TrendingUp className="h-4 w-4 text-emerald-500" /> Leaderboard is up to date
           </div>
         </div>
@@ -183,7 +178,7 @@ export const LeaderboardPage = () => {
         {/* List Content */}
         <div className="divide-y divide-slate-50">
           {/* Header Row */}
-          <div className="grid grid-cols-12 gap-6 p-6 px-10 text-[10px] font-bold text-slate-300 uppercase tracking-widest bg-slate-50/30">
+          <div className="grid grid-cols-12 gap-6 p-6 px-10 text-[10px] font-bold text-slate-300 font-semibold bg-slate-50/30">
             <div className="col-span-1 text-center">Rank</div>
             <div className="col-span-11 grid grid-cols-11 gap-4">
                <div className="col-span-4">Learner</div>
@@ -206,7 +201,7 @@ export const LeaderboardPage = () => {
             >
               <div className="col-span-1 flex justify-center">
                 <span className={cn(
-                  "font-black text-2xl tracking-tighter",
+                  "font-bold text-xl",
                   user.rank <= 3 ? "text-slate-900" : "text-slate-200"
                 )}>
                   {user.rank.toString().padStart(2, '0')}
@@ -216,12 +211,12 @@ export const LeaderboardPage = () => {
               <div className="col-span-11 grid grid-cols-11 gap-4 items-center">
                 <div className="col-span-4 flex items-center gap-6">
                   <div className={cn(
-                    "h-12 w-12 rounded-2xl flex items-center justify-center font-black text-white shadow-lg transition-transform group-hover:scale-110",
+                    "h-12 w-12 rounded-lg flex items-center justify-center font-black text-white shadow-lg transition-transform group-hover:scale-110 overflow-hidden",
                     user.rank === 1 ? "bg-indigo-600" :
                     user.rank === 2 ? "bg-indigo-500" :
-                    user.rank === 3 ? "bg-indigo-400" : "bg-slate-100 !text-slate-400"
+                    user.rank === 3 ? "bg-indigo-400" : "bg-slate-100"
                   )}>
-                    {user.avatar}
+                    <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold text-slate-900 text-lg tracking-tight">
@@ -232,7 +227,7 @@ export const LeaderboardPage = () => {
                 </div>
 
                 <div className="col-span-2 flex justify-center">
-                  <span className="px-4 py-1.5 bg-white border border-slate-100 text-slate-900 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                  <span className="px-4 py-1.5 bg-white border border-slate-100 text-slate-900 rounded-full text-xs font-semibold shadow-sm">
                     {user.level}
                   </span>
                 </div>
@@ -245,8 +240,8 @@ export const LeaderboardPage = () => {
                 </div>
 
                 <div className="col-span-3 text-right">
-                  <span className="font-black text-slate-900 text-xl tracking-tighter">
-                    {user.points.toLocaleString()} <span className="text-[10px] text-slate-300 font-bold uppercase tracking-widest ml-1">XP</span>
+                  <span className="font-bold text-slate-900 text-lg">
+                    {user.points.toLocaleString()} <span className="text-[10px] text-slate-300 font-bold font-semibold ml-1">XP</span>
                   </span>
                 </div>
               </div>

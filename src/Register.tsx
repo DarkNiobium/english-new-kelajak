@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/shared/ui/Button';
-import { Input } from '@/shared/ui/Input';
-import { Card, CardContent } from '@/shared/ui/Card';
+import { Button } from '@/Button';
+import { Input } from '@/Input';
+import { Card, CardContent } from '@/Card';
 import { Mail, Lock, User, Loader2, ArrowRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useUserStore } from '@/entities/user/store';
+import { useUserStore } from '@/userStore';
 import { motion } from 'framer-motion';
 
 const GoogleIcon = () => (
@@ -61,19 +61,19 @@ export const RegisterPage = () => {
       className="w-full max-w-[440px] px-6"
     >
       <div className="text-center mb-12 space-y-4">
-         <div className="h-14 w-14 rounded-2xl bg-indigo-600 mx-auto flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-indigo-100">ENK</div>
-         <h1 className="text-4xl font-black tracking-tighter text-slate-900 leading-none">Create Account</h1>
+         <div className="h-12 w-12 rounded-lg bg-indigo-600 mx-auto flex items-center justify-center text-white font-bold text-xl">E</div>
+         <h1 className="text-4xl font-bold text-slate-900 leading-tight">Create Account</h1>
          <p className="text-slate-500 font-medium text-lg leading-tight">Start your journey to English fluency today.</p>
       </div>
 
-      <Card className="border border-slate-100 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.08)] rounded-[3rem] overflow-hidden p-2 bg-white">
-        <CardContent className="p-10 space-y-8">
+      <Card className="border border-slate-100 shadow-lg rounded-2xl overflow-hidden p-2 bg-white">
+        <CardContent className="p-8 space-y-6">
           <Button
             type="button"
             variant="outline"
             onClick={() => onGoogleSignup()}
             disabled={isGoogleLoading}
-            className="w-full h-14 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 shadow-sm transition-all font-bold text-sm text-slate-600 group"
+            className="w-full h-12 rounded-lg border border-slate-100 bg-white hover:bg-slate-50 shadow-sm transition-all font-bold text-sm text-slate-600 group"
           >
             {isGoogleLoading ? <Loader2 className="h-5 w-5 animate-spin"/> : <GoogleIcon />}
             {isGoogleLoading ? 'Joining...' : 'Join with Google'}
@@ -91,25 +91,25 @@ export const RegisterPage = () => {
               icon={<User className="h-4 w-4 text-slate-300" />} 
               placeholder="Full Name" 
               {...register('name')}
-              className="bg-slate-50 border-none h-14 rounded-2xl text-slate-900 placeholder:text-slate-300 font-medium"
+              className="bg-slate-50 border-none h-12 rounded-lg text-slate-900 placeholder:text-slate-300 font-medium"
             />
             <Input 
               icon={<Mail className="h-4 w-4 text-slate-300" />} 
               placeholder="Email Address" 
               type="email"
               {...register('email')}
-              className="bg-slate-50 border-none h-14 rounded-2xl text-slate-900 placeholder:text-slate-300 font-medium"
+              className="bg-slate-50 border-none h-12 rounded-lg text-slate-900 placeholder:text-slate-300 font-medium"
             />
             <Input 
               icon={<Lock className="h-4 w-4 text-slate-300" />} 
               placeholder="Create Password" 
               type="password"
               {...register('password')}
-              className="bg-slate-50 border-none h-14 rounded-2xl text-slate-900 placeholder:text-slate-300 font-medium"
+              className="bg-slate-50 border-none h-12 rounded-lg text-slate-900 placeholder:text-slate-300 font-medium"
             />
             
             <Button 
-              className="w-full h-16 rounded-[2rem] text-lg font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl shadow-indigo-100 mt-6 group" 
+              className="w-full h-16 rounded-lg text-base font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-50 mt-6 group" 
               type="submit" 
               disabled={isSubmitting}
             >

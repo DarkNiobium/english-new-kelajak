@@ -1,15 +1,15 @@
 import { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { HomePage } from '@/pages/Home';
-import { DashboardLayout } from '@/app/layouts/DashboardLayout';
-import { DashboardPage } from '@/pages/Dashboard';
-import { AuthLayout } from '@/app/layouts/AuthLayout';
-import { LoginPage } from '@/pages/Auth/Login';
-import { RegisterPage } from '@/pages/Auth/Register';
-import { AITutorPage } from '@/pages/AITutor';
-import { CoursesPage } from '@/pages/Courses';
-import { LeaderboardPage } from '@/pages/Leaderboard';
-import { useUiStore } from '@/shared/store/ui';
+import { HomePage } from '@/Home';
+import { DashboardLayout } from '@/DashboardLayout';
+import { DashboardPage } from '@/Dashboard';
+import { AuthLayout } from '@/AuthLayout';
+import { LoginPage } from '@/Login';
+import { RegisterPage } from '@/Register';
+import { AITutorPage } from '@/AITutor';
+import { CoursesPage } from '@/Courses';
+import { LeaderboardPage } from '@/Leaderboard';
+import { useUiStore } from '@/uiStore';
 
 export const App = () => {
   const isDarkMode = useUiStore((state) => state.isDarkMode);

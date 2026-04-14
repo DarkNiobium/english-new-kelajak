@@ -1,49 +1,57 @@
-import { Link, useLocation } from 'react-router-dom';
-import { 
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
   LayoutGrid, BookOpen, Sparkles, Trophy, LogOut, ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { cn } from '@/shared/lib/utils';
-import { useUiStore } from '@/shared/store/ui';
+import { cn } from '@/utils';
+import { useUiStore } from '@/uiStore';
+import { useUserStore } from '@/userStore';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
   { icon: LayoutGrid, label: 'Dashboard', href: '/dashboard' },
   { icon: BookOpen, label: 'Courses', href: '/courses' },
-  { icon: Sparkles, label: 'AI Tutor', href: '/ai-tutor', badge: 'PRO' },
+  { icon: Sparkles, label: 'Create Lesson', href: '/ai-tutor', },
   { icon: Trophy, label: 'Leaderboard', href: '/leaderboard' },
 ];
 
 export const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isSidebarCollapsed, toggleSidebar } = useUiStore();
+  const logout = useUserStore(state => state.logout);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
-    <aside 
+    <aside
       className={cn(
-        "fixed left-0 top-0 hidden h-screen flex-col bg-white border-r border-slate-100 py-10 transition-all duration-700 ease-[0.16, 1, 0.3, 1] md:flex z-50",
-        isSidebarCollapsed ? "w-24 items-center" : "w-80 px-8"
+        "fixed left-0 top-0 hidden h-screen flex-col bg-white border-r border-slate-200 py-8 transition-all duration-300 md:flex z-50",
+        isSidebarCollapsed ? "w-20 items-center" : "w-64 px-4"
       )}
     >
       <div className={cn("flex items-center mb-16 w-full", isSidebarCollapsed ? "justify-center px-0" : "justify-between px-2")}>
         <AnimatePresence mode="wait">
           {!isSidebarCollapsed && (
-            <motion.div 
+            <motion.div
               key="logo"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="flex items-center gap-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-3 px-2"
             >
-              <div className="h-9 w-11 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-xs shadow-xl shadow-indigo-100">
-                ENK
+              <div className="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">
+                E
               </div>
-              <span className="text-lg font-black tracking-tighter text-slate-900 leading-tight">English new<br/><span className="text-indigo-600">kelajak</span></span>
+              <span className="text-xl font-bold text-slate-900 tracking-tight">ENK English</span>
             </motion.div>
           )}
         </AnimatePresence>
-        
-        <button 
-          onClick={toggleSidebar} 
+
+        <button
+          onClick={toggleSidebar}
           className="h-10 w-10 rounded-xl border border-slate-100 flex items-center justify-center text-slate-300 hover:text-slate-900 hover:bg-slate-50 transition-all"
         >
           {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -58,34 +66,34 @@ export const Sidebar = () => {
               key={item.label}
               to={item.href}
               className={cn(
-                'group relative flex items-center transition-all duration-500 ease-[0.16, 1, 0.3, 1]',
-                isSidebarCollapsed 
-                  ? 'justify-center w-14 h-14 rounded-2xl mx-auto'
-                  : 'space-x-4 w-full px-5 py-4 rounded-2xl',
-                isActive 
-                  ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-100' 
-                  : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
+                'group relative flex items-center transition-all duration-200',
+                isSidebarCollapsed
+                  ? 'justify-center w-12 h-12 rounded-lg mx-auto'
+                  : 'space-x-3 w-full px-4 py-3 rounded-lg',
+                isActive
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
               )}
             >
-              <item.icon 
+              <item.icon
                 className={cn(
-                  "flex-shrink-0 transition-all duration-300", 
+                  "flex-shrink-0 transition-all duration-300",
                   isSidebarCollapsed ? "h-6 w-6" : "h-5 w-5",
                   isActive ? "text-white" : "text-slate-300 group-hover:text-slate-900"
-                )} 
+                )}
               />
-              
+
               {!isSidebarCollapsed && (
                 <div className="flex-1 flex items-center justify-between">
                   <span className={cn(
-                    "font-bold text-[13px] tracking-tight transition-colors duration-200",
+                    "font-medium text-sm transition-colors duration-200",
                     isActive ? "text-white" : "text-inherit"
                   )}>
                     {item.label}
                   </span>
                   {item.badge && (
                     <span className={cn(
-                      "text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-[0.2em]",
+                      "text-[10px] font-bold px-1.5 py-0.5 rounded",
                       isActive ? "bg-white/20 text-white" : "bg-indigo-600 text-white"
                     )}>
                       {item.badge}
@@ -99,12 +107,15 @@ export const Sidebar = () => {
       </nav>
 
       <div className="mt-auto pt-8 border-t border-slate-100 space-y-4">
-        <button className={cn(
-          "flex items-center w-full px-5 py-4 rounded-2xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-all font-bold text-sm",
-          isSidebarCollapsed && "justify-center"
-        )}>
+        <button
+          onClick={handleLogout}
+          className={cn(
+            "flex items-center w-full px-4 py-3 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all font-medium text-sm",
+            isSidebarCollapsed && "justify-center"
+          )}
+        >
           <LogOut className="h-5 w-5 shrink-0" />
-          {!isSidebarCollapsed && <span className="ml-4">Log Out</span>}
+          {!isSidebarCollapsed && <span className="ml-3">Logout</span>}
         </button>
       </div>
     </aside>

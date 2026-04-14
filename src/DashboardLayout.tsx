@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '@/widgets/Sidebar';
-import { Navbar } from '@/widgets/Navbar';
-import { useUiStore } from '@/shared/store/ui';
-import { cn } from '@/shared/lib/utils';
+import { Sidebar } from '@/Sidebar';
+import { Navbar } from '@/Navbar';
+import { useUiStore } from '@/uiStore';
+import { cn } from '@/utils';
 
 export const DashboardLayout = () => {
   const isSidebarCollapsed = useUiStore((state) => state.isSidebarCollapsed);
