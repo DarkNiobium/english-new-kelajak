@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
-import { Sparkles, BrainCircuit, Loader2, ChevronRight, Zap } from 'lucide-react';
+import { Sparkles, BrainCircuit, Loader2, Zap } from 'lucide-react';
 import { Card } from '@/Card';
 import { Button } from '@/Button';
 import { cn } from '@/utils';
-import { PREMADE_LESSONS } from '@/lessons';
 import { parseJsonLoose } from '@/utils/aiParser';
 import { AILessonViewer } from '@/components/AILessonViewer';
-import { GeneratedLesson, LearningGoal, LessonSection, KnowledgeLevel } from '@/types';
+import { GeneratedLesson, LearningGoal, LessonSection } from '@/types';
 import { useUserStore } from '@/userStore';
 import { useLessonStore } from '@/lessonStore';
 
 // Type helper for Vite env
-const VITE_GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const VITE_GEMINI_API_KEY = (import.meta as any).env.VITE_GEMINI_API_KEY;
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-const FOUNDATION_TOPICS: Record<string, string[]> = {
-  'A1': ['Essential Verbs', 'Sentence Structure', 'Identity & Introductions', 'Numbers & Time'],
-  'A2': ['Storytelling Basics', 'Daily Routines', 'Travel Vocabulary', 'Asking for Directions'],
-  'B1': ['Business Fundamentals', 'Opinion & Debate', 'Workplace Etiquette', 'Technical English'],
-  'B2': ['Advanced Negotiations', 'Abstract Concepts', 'Cultural Nuances', 'Complex Arguments'],
-  'C1': ['Academic Writing', 'Public Speaking', 'Systemic Thinking', 'Philosophical Discourse'],
-  'C2': ['Native Nuances', 'Creative Mastery', 'Professional Diplomacy', 'Lexical Precision']
-};
+
 
 export const AITutorPage = () => {
   const [searchParams] = useSearchParams();

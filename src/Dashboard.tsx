@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/Card';
-import { ProgressBar } from '@/ProgressBar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/Card';
 import { Button } from '@/Button';
-import { Play, Star, Flame, Trophy, TrendingUp, Calendar, Zap, Rocket, ChevronRight, Globe, Terminal } from 'lucide-react';
+import { Play, Star, Flame, Trophy, TrendingUp, Zap, Rocket, ChevronRight, Globe, Terminal } from 'lucide-react';
 import { cn } from '@/utils';
 import { useUserStore } from '@/userStore';
 

@@ -91,12 +91,12 @@ export const Sidebar = () => {
                   )}>
                     {item.label}
                   </span>
-                  {item.badge && (
+                  {(item as any).badge && (
                     <span className={cn(
                       "text-[10px] font-bold px-1.5 py-0.5 rounded",
                       isActive ? "bg-white/20 text-white" : "bg-indigo-600 text-white"
                     )}>
-                      {item.badge}
+                      {(item as any).badge}
                     </span>
                   )}
                 </div>

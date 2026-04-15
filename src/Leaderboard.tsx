@@ -196,7 +196,7 @@ export const LeaderboardPage = () => {
               key={user.id} 
               className={cn(
                 "grid grid-cols-12 gap-6 p-8 px-10 items-center transition-all hover:bg-slate-50 group",
-                user.isCurrentUser ? "bg-indigo-50/30 ring-1 ring-inset ring-indigo-100" : ""
+                (user as any).isCurrentUser ? "bg-indigo-50/30 ring-1 ring-inset ring-indigo-100" : ""
               )}
             >
               <div className="col-span-1 flex justify-center">
@@ -222,7 +222,7 @@ export const LeaderboardPage = () => {
                     <span className="font-bold text-slate-900 text-lg tracking-tight">
                       {user.name}
                     </span>
-                    {user.isCurrentUser && <span className="text-[9px] uppercase font-bold text-indigo-600 tracking-widest">You</span>}
+                    {(user as any).isCurrentUser && <span className="text-[9px] uppercase font-bold text-indigo-600 tracking-widest">You</span>}
                   </div>
                 </div>
 

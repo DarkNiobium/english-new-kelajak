@@ -3,8 +3,8 @@ import { Button } from '@/Button';
 import { Card, CardContent } from '@/Card';
 import { motion } from 'framer-motion';
 import { 
-  Zap, BrainCircuit, Globe, Rocket, 
-  ChevronRight, CheckCircle2, Terminal, Star, Sparkles, BookOpen, TrendingUp
+  Globe, 
+  ChevronRight, CheckCircle2, Sparkles, BookOpen, TrendingUp
 } from 'lucide-react';
 
 export const HomePage = () => {
@@ -16,7 +16,7 @@ export const HomePage = () => {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: any = {
     visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: 'easeOut' } }
   };
 

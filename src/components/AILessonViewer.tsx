@@ -20,7 +20,7 @@ import {
 import { cn } from '@/utils';
 import { GeneratedLesson, LessonSection } from '@/types';
 import { Button } from '@/Button';
-import { Card } from '@/Card';
+
 
 interface AILessonViewerProps {
   lesson: GeneratedLesson;

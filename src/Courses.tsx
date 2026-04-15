@@ -154,7 +154,7 @@ const containerVariants = {
   show: { opacity: 1, transition: { staggerChildren: 0.07 } },
 };
 
-const cardVariants = {
+const cardVariants: any = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 260, damping: 22 } },
 };
